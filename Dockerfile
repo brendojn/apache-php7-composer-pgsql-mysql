@@ -28,6 +28,7 @@ RUN apt-get update \
     && docker-php-ext-install mcrypt \
     && docker-php-ext-install opcache \
     && docker-php-ext-install zip \
+    && docker-php-ext-install gd \
     && pecl install apcu-5.1.3 && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini \
 
     && apt-get purge -y g++ \
