@@ -5,6 +5,7 @@ MAINTAINER Lucid Programmer<lucidprogrammer@hotmail.com>
 ENV PATH $PATH:/root/.composer/vendor/bin
 # by default give a DocumentRoot
 ENV DOCUMENT_ROOT /var/www/html
+ENV PORT 80
 
 # PHP extensions come first, as they are less likely to change between Yii releases
 RUN apt-get update \

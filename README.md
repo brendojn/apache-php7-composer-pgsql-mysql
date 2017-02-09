@@ -10,3 +10,4 @@ docker run -v $(pwd)/app:/var/www/html .....
 # Environment Variables
 DOCUMENT_ROOT : If you don't specify this environment variable, /var/www/html is used by default.
 API_TOKEN: If you specify a gitbub api token, this will help composer, so it won't ask for token during install.
+PORT: default listen port, useful if deploying to heroku
