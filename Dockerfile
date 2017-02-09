@@ -14,7 +14,8 @@ RUN apt-get update \
             libicu-dev \
             libmcrypt-dev \
             zlib1g-dev \
-            libpq-dev\
+            libpq-dev \
+            libpng-dev \
         --no-install-recommends \
 
     # Enable mod_rewrite
