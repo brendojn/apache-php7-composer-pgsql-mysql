@@ -1,5 +1,4 @@
-FROM php:7.0.8-apache
-
+FROM ubuntu:16.04
 MAINTAINER Lucid Programmer<lucidprogrammer@hotmail.com>
 
 ENV PATH $PATH:/root/.composer/vendor/bin
@@ -7,40 +6,26 @@ ENV PATH $PATH:/root/.composer/vendor/bin
 ENV DOCUMENT_ROOT /var/www/html
 ENV PORT 80
 
-# PHP extensions come first, as they are less likely to change between Yii releases
-RUN apt-get update \
-    && apt-get -y install \
-            git \
-            g++ \
-            libicu-dev \
-            libmcrypt-dev \
-            zlib1g-dev \
-            libpq-dev \
-            libpng-dev \
-            freetype* \
-        --no-install-recommends \
-
-    # Enable mod_rewrite
-    && a2enmod rewrite \
-
-    # Install PHP extensions
-    && docker-php-ext-install intl \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install pdo_pgsql \
-    && docker-php-ext-install mbstring \
-    && docker-php-ext-install mcrypt \
-    && docker-php-ext-install opcache \
-    && docker-php-ext-install zip \
-    && docker-php-ext-install gd \
-    && pecl install apcu-5.1.3 && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini \
-
-    && apt-get purge -y g++ \
-    && apt-get autoremove -y \
-    && rm -r /var/lib/apt/lists/* \
-
-    # Fix write permissions with shared folders
-    && usermod -u 1000 www-data
-
+RUN apt-get update && \
+    apt-get dist-upgrade -y && \
+    apt-get install -y \
+      apache2 \
+      mcrypt \
+      php7.0 \
+      php7.0-cli \
+      libapache2-mod-php7.0 \
+      php7.0-gd \
+      php7.0-json \
+      php7.0-ldap \
+      php7.0-mbstring \
+      php7.0-mysql \
+      php7.0-pgsql \
+    # php7.0-sqlite3 \
+      php7.0-xml \
+      php7.0-xsl \
+      php7.0-zip \
+      php7.0-mcrypt
+RUN apt-get install -y curl
 # Next composer and global composer package, as their versions may change from time to time
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer.phar
@@ -49,5 +34,12 @@ RUN curl -sS https://getcomposer.org/installer | php \
 # Apache config and composer wrapper
 COPY apache2.conf /etc/apache2/apache2.conf
 COPY composer /usr/local/bin/composer
-
+RUN chmod +x /usr/local/bin/composer
 WORKDIR /var/www/html
+
+COPY run /usr/local/bin/run
+RUN chmod +x /usr/local/bin/run
+RUN a2enmod rewrite
+
+
+CMD ["/usr/local/bin/run"]
