@@ -16,6 +16,7 @@ RUN apt-get update \
             zlib1g-dev \
             libpq-dev \
             libpng-dev \
+            freetype* \
         --no-install-recommends \
 
     # Enable mod_rewrite
