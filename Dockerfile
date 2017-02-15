@@ -24,6 +24,7 @@ RUN apt-get update && \
       php7.0-xml \
       php7.0-xsl \
       php7.0-zip \
+      php7.0-curl \
       php7.0-mcrypt
 RUN apt-get install -y curl
 # Next composer and global composer package, as their versions may change from time to time
